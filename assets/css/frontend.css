@@ -1,0 +1,56 @@
+#form-encuesta .encuesta-container {
+	width:100%;
+	float:left;
+	display: inline-block;
+}
+
+#form-encuesta .encuesta-container-radio {
+	width:100%;
+	float:left;
+	display: inline-block;
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 0;
+	margin-bottom: 20px;
+}
+
+ #form-encuesta input[type="radio"] {
+ 	margin-right:30px;
+ }
+
+ #encuesta-container h2 {
+ 	font-size:24px;
+ 	margin-left: 0;
+ 	margin-right: 0;
+ 	margin-top: 0;
+ 	margin-bottom:20px;
+ 	padding:0;
+
+}
+
+#form-encuesta .error {
+	color:red;
+}
+
+.encuesta-resultados-container {
+	width:100%;
+	float:left;
+	margin-top:15px;
+}
+
+.encuesta-resultados-container h2 {
+	width: 100%;
+	float:left;
+	border-top: solid 1px #CCC;
+	border-bottom: solid 1px #CCC;
+	margin-bottom:15px;
+	margin-top:0;
+	padding-top:10px;
+	padding-bottom: 10px;
+}
+
+.encuesta-resultados-container h3 {
+	margin:0;
+	padding: 0;
+	line-height: 130%;
+}
