@@ -21,7 +21,7 @@ function encuesta_ajax() {
 	// verifica nonce
 	if ( ! isset( $_POST['encuesta_nonce_field'] ) || ! wp_verify_nonce( $_POST['encuesta_nonce_field'], 'encuesta_action' ) ) {
 
-	   print 'Lo siento, tu nonce no verifica.';
+	   print 'Lo siento, no verifica.';
 	   exit;
 
 	} else {
@@ -29,48 +29,64 @@ function encuesta_ajax() {
 		// comprobamos que existen
 		if( isset( $_POST['encuesta_radiochoices'] ) && isset( $_POST['encuesta_email'] ) ) {
 
-			// saneamos 
-			$encuesta_radiochoices = sanitize_text_field( $_POST['encuesta_radiochoices'] ); 
-			$encuesta_email = sanitize_email( $_POST['encuesta_email'] );
+			$respuesta_length = strlen( $_POST['encuesta_radiochoices'] );
+			$email_length = strlen( $_POST['encuesta_email'] );
+			$valid_email = is_email( $_POST['encuesta_email'] );
 
-			global $wpdb;
-			$table_name = $wpdb->prefix . "encuesta";
+			// valida el máximo de carácteres permitido en cada string y si el email es válido
+			if( $respuesta_length <= 30 && $email_length <= 100 && $valid_email ) { 
 
-			// insertamos
-			$inserted = $wpdb->insert (
+				// saneamos 
+				$encuesta_radiochoices = sanitize_text_field( $_POST['encuesta_radiochoices'] ); 
+				$encuesta_email = sanitize_email( $_POST['encuesta_email'] );
 
-				$table_name,
+				global $wpdb;
+				$table_name = $wpdb->prefix . "encuesta";
 
-				array(						
-					'time' => date( "Y-m-d h:i:s", time() ),
-					'respuesta' => $encuesta_radiochoices,
-					'email' => $encuesta_email
-				),
+				// insertamos
+				$inserted = $wpdb->insert (
 
-				array(
-					'%s',
-					'%s',
-					'%s'
-				)
+					$table_name,
 
-			);
+					array(						
+						'time' => date( "Y-m-d h:i:s", time() ),
+						'respuesta' => $encuesta_radiochoices,
+						'email' => $encuesta_email
+					),
 
-			// SI se ha creado, mostramos mensaje OK
-			if( $inserted ) {
+					array(
+						'%s',
+						'%s',
+						'%s'
+					)
 
-				$result['type'] = 'success';
-				//$result['msg'] = 'ID: ' + $wpdb->insert_id;
-				$result['msg'] = 'Gracias por participar!';
-				$result = json_encode( $result );
-				echo $result;
-				wp_die(); 
+				);
 
-			// NO se ha creado, mostramos error en #encuesta-error
+				// SI se ha creado, mostramos mensaje OK
+				if( $inserted ) {
+
+					$result['type'] = 'success';
+					//$result['msg'] = 'ID: ' + $wpdb->insert_id;
+					$result['msg'] = 'Gracias por participar!';
+					$result = json_encode( $result );
+					echo $result;
+					wp_die(); 
+
+				// NO se ha creado, mostramos error en #encuesta-error
+				} else {
+
+					$result['type'] = 'error';
+					$result['msg'] = 'Error al crear el registro en la base de datos';
+					$result = json_encode( $result );
+					echo $result;
+					wp_die(); 
+
+				}
+
 			} else {
 
-				//return false;
 				$result['type'] = 'error';
-				$result['msg'] = 'Error al crear el registro en la base de datos';
+				$result['msg'] = 'Error al enviar formulario';
 				$result = json_encode( $result );
 				echo $result;
 				wp_die(); 
