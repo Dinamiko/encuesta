@@ -8,9 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function encuesta_database_install() {
 
 	global $wpdb;
-	$installed_ver = get_option( "encuesta_db_version", '1.0' );
+	//$installed_ver = get_option( "encuesta_db_version", '1.0' );
 
-	if ( $installed_ver != $encuesta_db_version ) {
+	//if ( $installed_ver != ENCUESTA_BBDD_VERSION ) {
 
 		$table_name = $wpdb->prefix . 'encuesta';
 
@@ -27,7 +27,7 @@ function encuesta_database_install() {
 
 		update_option( "encuesta_db_version", ENCUESTA_BBDD_VERSION );
 
-	}
+	//}
 
 }
 
@@ -37,7 +37,9 @@ function encuesta_database_install() {
 */
 function encuesta_update_db_check() {
 
-    if ( get_site_option( 'encuesta_db_version' ) != ENCUESTA_BBDD_VERSION ) {
+	$installed_ver = get_option( "encuesta_db_version", '1.0' );
+
+    if ( $installed_ver != ENCUESTA_BBDD_VERSION ) {
 
         encuesta_database_install();
 
