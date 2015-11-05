@@ -46,3 +46,5 @@ function encuesta_update_db_check() {
 }
 
 add_action( 'plugins_loaded', 'encuesta_update_db_check' );
+
+
