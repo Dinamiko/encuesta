@@ -8,26 +8,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function encuesta_database_install() {
 
 	global $wpdb;
-	$installed_ver = get_option( "encuesta_db_version", '1.0' );
+	$table_name = $wpdb->prefix . 'encuesta';
 
-	if ( $installed_ver != $encuesta_db_version ) {
+	$sql = "CREATE TABLE $table_name (
+		id mediumint(9) NOT NULL AUTO_INCREMENT,
+		time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		respuesta VARCHAR(30) DEFAULT '' NOT NULL,
+		email VARCHAR(100) DEFAULT '' NOT NULL,
+		UNIQUE KEY id (id)
+	);";
 
-		$table_name = $wpdb->prefix . 'encuesta';
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	dbDelta( $sql );
 
-		$sql = "CREATE TABLE $table_name (
-			id mediumint(9) NOT NULL AUTO_INCREMENT,
-			time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			respuesta VARCHAR(30) DEFAULT '' NOT NULL,
-			email VARCHAR(100) DEFAULT '' NOT NULL,
-			UNIQUE KEY id (id)
-		);";
-
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta( $sql );
-
-		update_option( "encuesta_db_version", ENCUESTA_BBDD_VERSION );
-
-	}
+	update_option( "encuesta_db_version", ENCUESTA_BBDD_VERSION );
 
 }
 
@@ -37,7 +31,9 @@ function encuesta_database_install() {
 */
 function encuesta_update_db_check() {
 
-    if ( get_site_option( 'encuesta_db_version' ) != ENCUESTA_BBDD_VERSION ) {
+	$installed_ver = get_option( "encuesta_db_version", '1.0' );
+
+    if ( $installed_ver != ENCUESTA_BBDD_VERSION ) {
 
         encuesta_database_install();
 
