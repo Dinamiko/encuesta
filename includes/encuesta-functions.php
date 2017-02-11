@@ -18,26 +18,28 @@ add_action('wp_head','encuesta_crea_ajaxurl');
 */
 function encuesta_ajax() {
 
+/*
 	// verifica nonce
 	if ( ! isset( $_POST['encuesta_nonce_field'] ) || ! wp_verify_nonce( $_POST['encuesta_nonce_field'], 'encuesta_action' ) ) {
-
 	   print 'Lo siento, no verifica.';
 	   exit;
 
 	} else {
+*/
 
 		// comprobamos que existen
 		if( isset( $_POST['encuesta_radiochoices'] ) && isset( $_POST['encuesta_email'] ) ) {
 
+			$radiochoices_length = strlen( $_POST['encuesta_radiochoices'] );
 			$respuesta_length = strlen( $_POST['encuesta_radiochoices'] );
 			$email_length = strlen( $_POST['encuesta_email'] );
 			$valid_email = is_email( $_POST['encuesta_email'] );
 
 			// valida el máximo de carácteres permitido en cada string y si el email es válido
-			if( $respuesta_length <= 30 && $email_length <= 100 && $valid_email ) { 
+			if( $radiochoices_length > 0 && $respuesta_length <= 30 && $email_length <= 100 && $valid_email ) {
 
-				// saneamos 
-				$encuesta_radiochoices = sanitize_text_field( $_POST['encuesta_radiochoices'] ); 
+				// saneamos
+				$encuesta_radiochoices = sanitize_text_field( $_POST['encuesta_radiochoices'] );
 				$encuesta_email = sanitize_email( $_POST['encuesta_email'] );
 
 				global $wpdb;
@@ -48,7 +50,7 @@ function encuesta_ajax() {
 
 					$table_name,
 
-					array(						
+					array(
 						'time' => date( "Y-m-d h:i:s", time() ),
 						'respuesta' => $encuesta_radiochoices,
 						'email' => $encuesta_email
@@ -65,37 +67,40 @@ function encuesta_ajax() {
 				// SI se ha creado, mostramos mensaje OK
 				if( $inserted ) {
 
-					$result['type'] = 'success';
-					//$result['msg'] = 'ID: ' + $wpdb->insert_id;
-					$result['msg'] = 'Gracias por participar!';
-					$result = json_encode( $result );
-					echo $result;
-					wp_die(); 
+					$result = array(
+							'type'	=> 'success',
+							'msg' => 'Gracias por participar!',
+							'inserted_id' => $wpdb->insert_id
+					);
+					wp_send_json_success( $result );
 
 				// NO se ha creado, mostramos error en #encuesta-error
 				} else {
-
-					$result['type'] = 'error';
-					$result['msg'] = 'Error al crear el registro en la base de datos';
-					$result = json_encode( $result );
-					echo $result;
-					wp_die(); 
+					$result = array(
+							'type'	=> 'error',
+							'msg' => 'No se ha creado el registro en la base de datos',
+					);
+					wp_send_json_error( $result );
 
 				}
 
 			} else {
-
-				$result['type'] = 'error';
-				$result['msg'] = 'Error al enviar formulario';
-				$result = json_encode( $result );
-				echo $result;
-				wp_die(); 
-
+				$result = array(
+						'type'	=> 'error',
+						'msg' => 'Error al enviar formulario',
+				);
+				wp_send_json_error( $result );
 			}
 
-		} 
+		} else {
+			$result = array(
+					'type'	=> 'error',
+					'msg' => 'Los campos están vacios',
+			);
+			wp_send_json_error( $result );
+		}
 
-	}	
+	//}
 
 }
 
@@ -151,6 +156,3 @@ function encuesta_get_registros_respuesta( $respuesta ) {
 	}
 
 }
-
-
-

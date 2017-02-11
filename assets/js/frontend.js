@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
 
 	form.validate({
 		success: function(label,element) {
-			$.validator.messages.required = ''; 
+			$.validator.messages.required = '';
 		},
 
 	});
@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
 				type : 'post',
 				dataType : 'json',
 				url : ajaxurl,
-				data : { 	
+				data : {
 					action: 'encuesta_ajax',
 					encuesta_radiochoices:encuesta_radiochoices,
 					encuesta_email:encuesta_email,
@@ -42,12 +42,12 @@ jQuery(document).ready(function($) {
 				},
 
 				success: function( response ) {
-				
+
 					if( response.type == 'success') {
 
 						//console.log( 'ok: ' + response.msg );
 						$('#encuesta-container').html('<h3>' + response.msg + '</h3>');
-						
+
 
 					} else {
 
@@ -63,5 +63,5 @@ jQuery(document).ready(function($) {
 		}
 
 	});
-	
+
 });
