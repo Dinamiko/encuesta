@@ -27,10 +27,9 @@ jQuery(document).ready(function($) {
 
 			var encuesta_radiochoices = $('input[name=encuesta_radiochoices]:checked', '#encuesta-container').val();
 			var encuesta_email = $('#encuesta_email').val();
-			var encuesta_nonce_field = $('#encuesta_nonce_field').val();
+			var encuesta_nonce = $('#encuesta-nonce').val();
 
 			jQuery.ajax({
-
 				type : 'post',
 				dataType : 'json',
 				url : ajaxurl,
@@ -38,26 +37,15 @@ jQuery(document).ready(function($) {
 					action: 'encuesta_ajax',
 					encuesta_radiochoices:encuesta_radiochoices,
 					encuesta_email:encuesta_email,
-					encuesta_nonce_field:encuesta_nonce_field
+					encuesta_nonce:encuesta_nonce
 				},
-
 				success: function( response ) {
-
-					if( response.type == 'success') {
-
-						//console.log( 'ok: ' + response.msg );
-						$('#encuesta-container').html('<h3>' + response.msg + '</h3>');
-
-
+					if( response.success ) {
+						$('#encuesta-container').html('<h3>' + response.data.msg + '</h3>');
 					} else {
-
-						//console.log( 'error: ' + response.msg );
-						$('#encuesta-container').html(response.msg);
-
+						$('#encuesta-container').html(response.data.msg);
 					}
-
 				}
-
 			});
 
 		}

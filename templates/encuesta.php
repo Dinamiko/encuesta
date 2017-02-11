@@ -17,9 +17,13 @@
 		<input id="encuesta_email" type="email" name="encuesta_email" placeholder="Email" required>
 
 		<p id="encuesta-error"></p>
-		
+
 		<input class="submit-button" type="submit" value="Enviar">
-		<?php wp_nonce_field( 'encuesta_action', 'encuesta_nonce_field' ); ?> 
+		<?php
+			// wp_nonce_field( 'encuesta_action', 'encuesta-nonce' );
+			$nonce = wp_create_nonce( 'encuesta-nonce' );
+		?>
+		<input type="hidden" id="encuesta-nonce" value="<?php echo $nonce;?>"/>
 
 	</form>
 
