@@ -1,8 +1,11 @@
 <?php
 class Ajax_Test extends WP_Ajax_UnitTestCase {
+  public function setUp() {
+		parent::setUp();
+    encuesta_activation();
+  }
 
   function test_ajax_not_verified_nonce() {
-    encuesta_activation();
     try {
       //$_POST['encuesta_nonce'] = '';
       $_POST['encuesta_radiochoices'] = 'Huevo';
@@ -16,7 +19,6 @@ class Ajax_Test extends WP_Ajax_UnitTestCase {
   }
 
   function test_ajax_response_ok() {
-    encuesta_activation();
     try {
       $_POST['encuesta_nonce'] = wp_create_nonce( 'encuesta-nonce' );
       $_POST['encuesta_radiochoices'] = 'Huevo';
@@ -45,7 +47,6 @@ class Ajax_Test extends WP_Ajax_UnitTestCase {
   }
 
   function test_ajax_response_ko_empty_radiochoices() {
-    encuesta_activation();
     $_POST['encuesta_nonce'] = wp_create_nonce( 'encuesta-nonce' );
     $_POST['encuesta_radiochoices'] = '';
     $_POST['encuesta_email'] = 'aaa@bbbb.com';
@@ -59,7 +60,6 @@ class Ajax_Test extends WP_Ajax_UnitTestCase {
   }
 
   function test_ajax_response_ko_empty_email() {
-    encuesta_activation();
     $_POST['encuesta_nonce'] = wp_create_nonce( 'encuesta-nonce' );
     $_POST['encuesta_radiochoices'] = 'Lorem';
     $_POST['encuesta_email'] = '';
@@ -73,7 +73,6 @@ class Ajax_Test extends WP_Ajax_UnitTestCase {
   }
 
   function test_ajax_response_ko_incorrect_email() {
-    encuesta_activation();
     $_POST['encuesta_nonce'] = wp_create_nonce( 'encuesta-nonce' );
     $_POST['encuesta_radiochoices'] = 'Lorem';
     $_POST['encuesta_email'] = 'lorem-ipsum.com';
