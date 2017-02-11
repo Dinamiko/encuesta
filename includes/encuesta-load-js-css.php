@@ -15,11 +15,11 @@ function encuesta_enqueue_styles() {
 }
 
 function encuesta_enqueue_scripts() {
-	
+
 	wp_register_script( 'encuesta-validate', plugins_url( 'encuesta/assets/js/jquery.validate.min.js' ), array( 'jquery' ), '1.13.1', true );
 	wp_enqueue_script( 'encuesta-validate' );
 
-	wp_register_script( 'encuesta-frontend', plugins_url( 'encuesta/assets/js/frontend.js' ), array( 'jquery' ), ENCUESTA_VERSION, true );
+	wp_register_script( 'encuesta-frontend', plugins_url( 'encuesta/assets/js/frontend.js' ), array( 'jquery', 'underscore' ), ENCUESTA_VERSION, true );
 	wp_enqueue_script( 'encuesta-frontend' );
 
 }
