@@ -19,9 +19,31 @@ class Shortcodes_Test extends WP_UnitTestCase {
     $this->assertContains( '<input type="hidden" id="encuesta-nonce', encuesta_shortcode( array() ) );
 	}
 
+  public function test_form_should_appear_at_the_end_of_the_content() {
+    $pid = $this->factory->post->create( array(
+      'post_title'   => 'A Title',
+      'post_content' => '[encuesta]'
+    ) );
+    $post = get_post( $pid );
+    $content = apply_filters( 'the_content', $post->post_content );
+
+    $this->assertContains( 'form-encuesta', $content );
+  }
+
   public function test_encuesta_resultados_shortcode() {
 		$this->assertInternalType( 'string', encuesta_resultados_shortcode( array() ) );
     $this->assertContains( '<div class="encuesta-resultados-container">', encuesta_resultados_shortcode( array() ) );
 	}
+
+  public function test_results_should_appear_at_the_end_of_the_content() {
+    $pid = $this->factory->post->create( array(
+      'post_title'   => 'A Title',
+      'post_content' => '[encuesta-resultados]'
+    ) );
+    $post = get_post( $pid );
+    $content = apply_filters( 'the_content', $post->post_content );
+
+    $this->assertContains( 'encuesta-resultados-container', $content );
+  }
 
 }
