@@ -15,7 +15,7 @@ modules:
         WPDb:
             dsn: 'mysql:host=localhost;dbname=wordpress_codeception'
             user: root
-            password:
+            password: root
             dump: tests/_data/dump.sql
             populate: true
             cleanup: true

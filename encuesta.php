@@ -2,7 +2,7 @@
 /*
  * Plugin Name: Encuesta
  * Version: 1.0
- * Plugin URI: http://wp.dinamiko.com/demos/encuesta 
+ * Plugin URI: http://wp.dinamiko.com/demos/encuesta
  * Description: Ejemplo aplicación web
  * Author: Emili Castells
  * Author URI: http://www.dinamiko.com
@@ -30,7 +30,7 @@ if ( ! class_exists( 'Encuesta' ) ) {
 				self::$instance->setup_constants();
 
 				add_action( 'plugins_loaded', array( self::$instance, 'encuesta_load_textdomain' ) );
-				
+
 				self::$instance->includes();
 
 			}
@@ -41,7 +41,7 @@ if ( ! class_exists( 'Encuesta' ) ) {
 
 		public function encuesta_load_textdomain() {
 
-			load_plugin_textdomain( 'encuesta', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' ); 
+			load_plugin_textdomain( 'encuesta', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
 		}
 
@@ -51,7 +51,7 @@ if ( ! class_exists( 'Encuesta' ) ) {
 			if ( ! defined( 'ENCUESTA_BBDD_VERSION' ) ) { define( 'ENCUESTA_BBDD_VERSION', '1.0' ); }
 			if ( ! defined( 'ENCUESTA_PLUGIN_DIR' ) ) { define( 'ENCUESTA_PLUGIN_DIR', plugin_dir_path( __FILE__ ) ); }
 			if ( ! defined( 'ENCUESTA_PLUGIN_URL' ) ) { define( 'ENCUESTA_PLUGIN_URL', plugin_dir_url( __FILE__ ) ); }
-			if ( ! defined( 'ENCUESTA_PLUGIN_FILE' ) ) { define( 'ENCUESTA_PLUGIN_FILE', __FILE__ ); }			
+			if ( ! defined( 'ENCUESTA_PLUGIN_FILE' ) ) { define( 'ENCUESTA_PLUGIN_FILE', __FILE__ ); }
 
 		}
 
@@ -60,7 +60,7 @@ if ( ! class_exists( 'Encuesta' ) ) {
 			require_once ENCUESTA_PLUGIN_DIR . 'includes/encuesta-load-js-css.php';
 			require_once ENCUESTA_PLUGIN_DIR . 'includes/encuesta-functions.php';
 			require_once ENCUESTA_PLUGIN_DIR . 'includes/class-encuesta-template-loader.php';
-			require_once ENCUESTA_PLUGIN_DIR . 'includes/encuesta-shortcodes.php';			
+			require_once ENCUESTA_PLUGIN_DIR . 'includes/encuesta-shortcodes.php';
 			require_once ENCUESTA_PLUGIN_DIR . 'includes/encuesta-bbdd.php';
 			require_once ENCUESTA_PLUGIN_DIR . 'includes/encuesta-table.php';
 			require_once ENCUESTA_PLUGIN_DIR . 'includes/encuesta-install.php';
@@ -70,10 +70,11 @@ if ( ! class_exists( 'Encuesta' ) ) {
 		public function __clone() {
 			_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'encuesta' ), ENCUESTA_VERSION );
 		}
-
+		/* disabled fixes an integration test error
 		public function __wakeup() {
 			_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'encuesta' ), ENCUESTA_VERSION );
 		}
+		*/
 
 	}
 

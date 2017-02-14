@@ -7,12 +7,15 @@ IMPORTANT: don't run the tests in a production WordPress site, database is delet
 Create a new database and a fresh WordPress installation to run the tests on.
 
 suites: integration, functional, acceptance
+vendor/bin/wpcept run
 vendor/bin/wpcept run suite
+vendor/bin/wpcept run suite --steps --debug
 
 # create new tests
 suites: integration, functional, acceptance
+vendor/bin/wpcept generate:wpunit integration "Lorem"
 vendor/bin/wpcept generate:cept suite "Lorem"
-vendor/bin/wpcept generate:cept suite "Lorem"
+vendor/bin/wpcept generate:cest suite "Lorem"
 
 # install WPBrowser, will install Codeception for you
 composer require lucatume/wp-browser --dev
