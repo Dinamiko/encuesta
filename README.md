@@ -1,4 +1,3 @@
-test
 # encuesta
 Ejemplo aplicación web en WordPress
 https://speakerdeck.com/emili/creacion-de-aplicaciones-web-usando-wordpress-wordcamp-cantabria-2015
